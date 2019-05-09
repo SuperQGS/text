@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <style>
+            body {
+                background-color: black;
+            }
+            * {
+                color: white;
+            }
+            #player_input {
+                width: 100%;
+                background-color: black;
+                border: 0px;
+                outline-width: 0;
+                border-color: black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="text">
+            <p>a qgsoftware adventure.
+                <p>
+                    <p>You wake up.
+                        <p>
+
+        </div>
+        <br>
+        <input type="text" id="player_input">
+        <script>
+            var input = document.getElementById("player_input");
+            input.addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    var command = document.getElementById("player_input").value
+                    var text = document.getElementById("text").innerHTML
+                    var response = commandstest(command.toLowerCase());
+                    document.getElementById("text").innerHTML = text + "<p>\> " + command + "</p>" + "<p>" + response + "</p>";
+                    document.getElementById("player_input").value = "";
+                }
+            })
+            function commandstest(totest) {
+                if (totest == "help") {
+                    return "help, self, see, grab, use, move, talk."
+                }
+                if (totest.includes("self")) {
+                    return self();
+                }
+                if (totest.includes("see")) {
+                    return level.see;
+                }
+                if (totest.includes("grab")) {
+                    return grabfunc(totest);
+                }
+                if (totest.includes("use")) {
+                    return level.uses.toString()
+                }
+                if (totest.includes("move")) {
+                        return movefunc(totest);
+                }
+                if (totest.includes("talk")) {
+                    return level.talks.toString()
+                } else {
+                    return "Please use \"help\" to see a list of commands."
+                }
+            }
+                
+            //commands
+            function self() {
+                var inven = items.toString();
+                return "heath: " + hp + "/100. Inventory:" + inven + ".";
+            }
+            
+            function grabfunc(gquote) {
+                var loop = 0;
+                while (loop < level.grabs.length) {
+                    if (gquote.includes(level.grabs[loop])) {
+                        var quotet = "you grabbed the " + level.grabs[loop] + ". Added to inventory."
+                        console.log("hi")
+                        items[items.length] = level.grabs[loop]
+                        level.grabs[loop] = null;
+                        return quotet;
+                    }
+                    loop++
+                }
+                return "grab what? " + level.grabs.toString()
+            }
+            
+            function usefunc(mquote) {
+                var mloop = 0;
+                while (mloop < level.uses.length) {
+                    if (mquote.includes(level.uses[mloop])) {
+                        var quotet = "you moved to the " + level.uses[mloop];
+                        var lvlload = "level =" + level.moves[uses];
+                        eval(lvlload);
+                        return quotet;
+                    }
+                    mloop++
+                }
+                return "use what? " + level.uses.toString()
+            }
+            
+            function movefunc(mquote) {
+                var mloop = 0;
+                while (mloop < level.moves.length) {
+                    if (mquote.includes(level.moves[mloop])) {
+                        var quotet = "you moved to the " + level.moves[mloop];
+                        var lvlload = "level =" + level.moves[mloop];
+                        eval(lvlload);
+                        return quotet;
+                    }
+                    mloop++
+                }
+                return "move where? " + level.moves.toString()
+            }
+            
+            //vars
+            var hp = 100
+            var items = [" sword", " clothes"]
+            
+            
+            var cave = {
+                see: "you are in a cave. There is an opening onto a cliff",
+                grabs: [" rock", " pickaxe"],
+                uses: [],
+                useitems: [],
+                moves: [ " cliff"],
+                talks: []
+            }
+                
+            var cliff = {
+                see: "You are on the cliff. An expanse of forests run beneath you. To your left is a path and to your right a shack.",
+                grabs: [" flower"],
+                uses: [],
+                useitems: [],
+                moves: [" cave", " path", " shack"],
+                talks: []
+            }
+            
+            var shack = {
+                see: "You are in front of the shack. It's quite small and looks abandoned. The door wont open.",
+                grabs: [],
+                uses: [],
+                useitems: [],
+                moves: [" cliff"],
+                talks: []
+            }
+                
+            var level;
+            level = cave;
+        </script>
+    </body>
+
+</html>
