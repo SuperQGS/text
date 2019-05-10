@@ -54,7 +54,7 @@
                     return grabfunc(totest);
                 }
                 if (totest.includes("use")) {
-                    return level.uses.toString()
+                    return usefunc(totest);
                 }
                 if (totest.includes("move")) {
                         return movefunc(totest);
@@ -62,7 +62,7 @@
                 if (totest.includes("talk")) {
                     return level.talks.toString()
                 } else {
-                    return "Please use \"help\" to see a list of commands."
+                    return "use \"help\" to see a list of commands."
                 }
             }
                 
@@ -91,9 +91,19 @@
                 var mloop = 0;
                 while (mloop < level.uses.length) {
                     if (mquote.includes(level.uses[mloop])) {
-                        var quotet = "you moved to the " + level.uses[mloop];
-                        var lvlload = "level =" + level.moves[uses];
-                        eval(lvlload);
+                        
+                        
+                        if (items.includes(level.useitems[mloop])) {
+                            var quotet = "you use the " + level.useitems[mloop] + " on the " + level.uses[mloop] + "." + level.usesee[mloop];
+                            level.moves[level.moves.length] = level.usetrans[mloop];
+                            //remove item!!!
+                            
+                        } else {
+                            var quotet = "you try to use the " + level.uses[mloop] + ", but it doesn't work.";
+                        }
+                        
+                        
+                        
                         return quotet;
                     }
                     mloop++
@@ -105,7 +115,7 @@
                 var mloop = 0;
                 while (mloop < level.moves.length) {
                     if (mquote.includes(level.moves[mloop])) {
-                        var quotet = "you moved to the " + level.moves[mloop];
+                        var quotet = "you moved to the " + level.moves[mloop] + ".";
                         var lvlload = "level =" + level.moves[mloop];
                         eval(lvlload);
                         return quotet;
@@ -121,12 +131,15 @@
             
             
             var cave = {
-                see: "you are in a cave. There is an opening onto a cliff",
+                see: "you are in a cave. There is an opening onto a cliff.",
                 grabs: [" rock", " pickaxe"],
                 uses: [],
                 useitems: [],
+                usetrans: [],
+                usesee: [""],
                 moves: [ " cliff"],
-                talks: []
+                talks: [],
+                dialogue: []
             }
                 
             var cliff = {
@@ -134,17 +147,35 @@
                 grabs: [" flower"],
                 uses: [],
                 useitems: [],
+                usetrans: [],
+                usesee: [""],
                 moves: [" cave", " path", " shack"],
-                talks: []
+                talks: [],
+                dialogue: []
             }
             
             var shack = {
-                see: "You are in front of the shack. It's quite small and looks abandoned. The door wont open.",
+                see: "You are in front of the shack. It's quite small and looks abandoned.",
                 grabs: [],
-                uses: [],
-                useitems: [],
+                uses: [" door"],
+                useitems: [" pickaxe"],
+                usetrans: [" shack_door"],
+                usesee: [" The door smashes open with a loud noise."],
                 moves: [" cliff"],
-                talks: []
+                talks: [],
+                dialogue: []
+            }
+            
+            var shack_door = {
+                see: "You are inside the shack. It is cold and dark without the fireplace. There is a bed and a table with many items.",
+                grabs: [" knife", " leather boots", " magic staff"],
+                uses: [" door"],
+                useitems: [" pickaxe"],
+                usetrans: [" shack_door"],
+                usesee: [" The door smashes open with a loud noise."],
+                moves: [" cliff"],
+                talks: [],
+                dialogue: []
             }
                 
             var level;
