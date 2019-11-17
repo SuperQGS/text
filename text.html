@@ -8,11 +8,12 @@
             }
             * {
                 color: white;
+                font-size: 100%;
             }
             #player_input {
-                width: 100%;
                 background-color: black;
                 border: 0px;
+                width: 50%;
                 outline-width: 0;
                 border-color: black;
             }
@@ -21,48 +22,64 @@
 
     <body>
         <div id="text">
-            <p>a qgsoftware adventure.
-                <p>
-                    <p>You wake up.
-                        <p>
+            <div style="color:blue;">a qgsoftware adventure.</div>
+            <div>You wake up.</div>
+            <br>
 
         </div>
-        <br>
-        <input type="text" id="player_input">
+        <div>><input type="text" id="player_input"></div>
         <script>
             var input = document.getElementById("player_input");
-            input.addEventListener("keyup", function(event) {
+            var color = "white";
+            
+            
+            window.addEventListener("keydown", upbinds, false);
+            function upbinds(u){enter(event)};
+            
+            function enter(event) {
+                
                 if (event.keyCode === 13) {
                     var command = document.getElementById("player_input").value
                     var text = document.getElementById("text").innerHTML
-                    var response = commandstest(command.toLowerCase());
-                    document.getElementById("text").innerHTML = text + "<p>\> " + command + "</p>" + "<p>" + response + "</p>";
+                    var response = commandstest(command);
+                    document.getElementById("text").innerHTML = text + "<div style='color:grey;'>\> " + command + "</div>" + "<div style=\'color:" + color + ";\'>" + response + "</div><br>";
                     document.getElementById("player_input").value = "";
                     document.getElementById("player_input").scrollIntoView();
                 }
-            })
+            }
+            
+            
             function commandstest(totest) {
-                if (totest == "help") {
-                    return "help, self, see, grab, use, move, talk."
+                
+                color = "white";
+                
+                totest = totest.toLowerCase() + " ";
+                
+                cmd = totest.substring(0, totest.indexOf(" "));
+                console.log(cmd)
+                
+                if (cmd.includes("help") || cmd == "h") {
+                    return "help, me, look, grab, use, move, say."
                 }
-                if (totest.includes("self")) {
+                if (cmd.includes("me") || cmd == "i") {
                     return self();
                 }
-                if (totest.includes("see")) {
+                if (cmd.includes("look") || cmd == "l") {
                     return level.see;
                 }
-                if (totest.includes("grab")) {
+                if (cmd.includes("grab") || cmd == "g") {
                     return grabfunc(totest);
                 }
-                if (totest.includes("use")) {
+                if (cmd.includes("use") || cmd == "u") {
                     return usefunc(totest);
                 }
-                if (totest.includes("move")) {
-                        return movefunc(totest);
+                if (cmd.includes("move") || cmd == "m") {
+                    return movefunc(totest);
                 }
-                if (totest.includes("talk")) {
-                    return level.talks.toString()
+                if (cmd.includes("say") || cmd == "s") {
+                    return sayfunc(totest);
                 } else {
+                     color = "red";
                     return "use \"help\" to see a list of commands."
                 }
                 
@@ -72,6 +89,7 @@
             //commands
             function self() {
                 var inven = items.toString();
+                color = "blue";
                 return "heath: " + hp + "/100. Inventory:" + inven + ".";
             }
             
@@ -79,6 +97,7 @@
                 var loop = 0;
                 while (loop < level.grabs.length) {
                     if (gquote.includes(level.grabs[loop])) {
+                        color = "lime";
                         var quotet = "you grabbed the " + level.grabs[loop] + ". Added to inventory."
                         console.log("hi")
                         items[items.length] = level.grabs[loop]
@@ -87,6 +106,7 @@
                     }
                     loop++
                 }
+                color = "yellow";
                 return "grab what? " + level.grabs.toString()
             }
             
@@ -97,11 +117,13 @@
                         
                         
                         if (items.includes(level.useitems[mloop])) {
+                            color = "lime";
                             var quotet = "you use the " + level.useitems[mloop] + " on the " + level.uses[mloop] + "." + level.usesee[mloop];
                             level.moves[level.moves.length] = level.usetrans[mloop];
                             //remove item!!!
                             
                         } else {
+                            color = "red";
                             var quotet = "you try to use the " + level.uses[mloop] + ", but it doesn't work.";
                         }
                         
@@ -111,6 +133,7 @@
                     }
                     mloop++
                 }
+                color = "yellow";
                 return "use what? " + level.uses.toString()
             }
             
@@ -118,6 +141,7 @@
                 var mloop = 0;
                 while (mloop < level.moves.length) {
                     if (mquote.includes(level.moves[mloop])) {
+                        color = "lime";
                         var quotet = "you moved to the " + level.moves[mloop] + ".";
                         var lvlload = "level =" + level.moves[mloop];
                         eval(lvlload);
@@ -125,7 +149,15 @@
                     }
                     mloop++
                 }
+                color = "yellow";
                 return "move where? " + level.moves.toString()
+            }
+            
+            function sayfunc(mquote) {
+                color = "aqua";
+                
+                mquote = mquote.slice(mquote.indexOf(" "),mquote.length)
+                return "You: " + mquote;
             }
             
             //vars
@@ -135,7 +167,7 @@
             
             var cave = {
                 see: "you are in a cave. There is an opening onto a cliff.",
-                grabs: [" rock", " pickaxe"],
+                grabs: [" rock", " pickaxe", " sock"],
                 uses: [],
                 useitems: [],
                 usetrans: [],
@@ -173,10 +205,10 @@
                 see: "You are inside the shack. It is cold and dark without the fireplace. There is a bed and a table with many items.",
                 grabs: [" knife", " leather boots", " magic staff"],
                 uses: [" door"],
-                useitems: [" pickaxe"],
-                usetrans: [" shack_door"],
+                useitems: [],
+                usetrans: [],
                 usesee: [" The door smashes open with a loud noise."],
-                moves: [" cliff"],
+                moves: [" shack"],
                 talks: [],
                 dialogue: []
             }
