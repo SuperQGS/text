@@ -53,9 +53,10 @@
                 
                 color = "white";
                 
-                totest = totest.toLowerCase() + " ";
+                uppertoo = totest;
+                lower = totest.toLowerCase() + " ";
                 
-                cmd = totest.substring(0, totest.indexOf(" "));
+                cmd = lower.substring(0, lower.indexOf(" "));
                 console.log(cmd)
                 
                 if (cmd.includes("help") || cmd == "h") {
@@ -68,16 +69,16 @@
                     return level.see;
                 }
                 if (cmd.includes("grab") || cmd == "g") {
-                    return grabfunc(totest);
+                    return grabfunc(lower);
                 }
                 if (cmd.includes("use") || cmd == "u") {
-                    return usefunc(totest);
+                    return usefunc(lower);
                 }
                 if (cmd.includes("move") || cmd == "m") {
-                    return movefunc(totest);
+                    return movefunc(lower);
                 }
                 if (cmd.includes("say") || cmd == "s") {
-                    return sayfunc(totest);
+                    return sayfunc(uppertoo);
                 } else {
                      color = "red";
                     return "use \"help\" to see a list of commands."
@@ -88,9 +89,14 @@
                 
             //commands
             function self() {
-                var inven = items.toString();
+                var inven = "";
+                for (i = 0; i < items.length - 1; i++) {
+                    inven = inven + items[i] + ", "
+                }
+                inven = inven + items[items.length - 1];
+                
                 color = "blue";
-                return "heath: " + hp + "/100. Inventory:" + inven + ".";
+                return "heath: " + hp + "/100. Inventory: " + inven + ".";
             }
             
             function grabfunc(gquote) {
@@ -101,13 +107,20 @@
                         var quotet = "you grabbed the " + level.grabs[loop] + ". Added to inventory."
                         console.log("hi")
                         items[items.length] = level.grabs[loop]
-                        level.grabs[loop] = null;
+                        level.grabs.splice(loop,loop+1)
                         return quotet;
                     }
                     loop++
                 }
                 color = "yellow";
-                return "grab what? " + level.grabs.toString()
+                
+                var grabstring = "";
+                for (i = 0; i < items.length - 1; i++) {
+                    grabstring = grabstring + level.grabs[i] + ", "
+                }
+                grabstring = grabstring + level.grabs[level.grabs.length];
+                
+                return "grab what? " + level.grabs;
             }
             
             function usefunc(mquote) {
@@ -162,59 +175,64 @@
             
             //vars
             var hp = 100
-            var items = [" sword", " clothes"]
+            var items = ["sword", "clothes"]
             
             
-            var cave = {
-                see: "you are in a cave. There is an opening onto a cliff.",
-                grabs: [" rock", " pickaxe", " sock"],
-                uses: [],
-                useitems: [],
-                usetrans: [],
-                usesee: [""],
-                moves: [ " cliff"],
-                talks: [],
-                dialogue: []
-            }
-                
-            var cliff = {
-                see: "You are on the cliff. An expanse of forests run beneath you. To your left is a path and to your right a shack.",
-                grabs: [" flower"],
-                uses: [],
-                useitems: [],
-                usetrans: [],
-                usesee: [""],
-                moves: [" cave", " path", " shack"],
-                talks: [],
-                dialogue: []
-            }
             
-            var shack = {
-                see: "You are in front of the shack. It's quite small and looks abandoned.",
-                grabs: [],
-                uses: [" door"],
-                useitems: [" pickaxe"],
-                usetrans: [" shack_door"],
-                usesee: [" The door smashes open with a loud noise."],
-                moves: [" cliff"],
-                talks: [],
-                dialogue: []
-            }
             
-            var shack_door = {
-                see: "You are inside the shack. It is cold and dark without the fireplace. There is a bed and a table with many items.",
-                grabs: [" knife", " leather boots", " magic staff"],
-                uses: [" door"],
-                useitems: [],
-                usetrans: [],
-                usesee: [" The door smashes open with a loud noise."],
-                moves: [" shack"],
-                talks: [],
-                dialogue: []
-            }
+            var world = [
+                {
+                    name: "cave",
+                    see: "you are in a cave. There is an opening onto a cliff.",
+                    grabs: ["rock", "pickaxe", "sock"],
+                    uses: [],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [""],
+                    moves: ["cliff"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "cliff",
+                    see: "You are on the cliff. An expanse of forests run beneath you. To your left is a path and to your right a shack.",
+                    grabs: ["flower"],
+                    uses: [],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [""],
+                    moves: ["cave", "path", "outside shack"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "outside shack",
+                    see: "You are in front of the shack. It's quite small and looks abandoned.",
+                    grabs: [],
+                    uses: ["door"],
+                    useitems: ["pickaxe"],
+                    usetrans: ["inside shack"],
+                    usesee: ["The door smashes open with a loud noise."],
+                    moves: ["cliff"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "inside shack",
+                    see: "You are inside the shack. It is cold and dark without the fireplace. There is a bed and a table with many items.",
+                    grabs: [" knife", " leather boots", " magic staff"],
+                    uses: [" door"],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [" The door smashes open with a loud noise."],
+                    moves: [" shack"],
+                    talks: [],
+                    dialogue: []
+                }
+            ];
                 
             var level;
-            level = cave;
+            level = world[0];
         </script>
     </body>
 
