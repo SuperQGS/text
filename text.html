@@ -115,12 +115,16 @@
                 color = "yellow";
                 
                 var grabstring = "";
-                for (i = 0; i < items.length - 1; i++) {
+                for (i = 0; i < level.grabs.length - 1; i++) {
                     grabstring = grabstring + level.grabs[i] + ", "
                 }
-                grabstring = grabstring + level.grabs[level.grabs.length];
+                grabstring = grabstring + level.grabs[level.grabs.length - 1];
                 
-                return "grab what? " + level.grabs;
+                if (grabstring == "undefined") {
+                    grabstring = "nothing to grab";
+                }
+                
+                return "grab what? (" + grabstring + ")";
             }
             
             function usefunc(mquote) {
