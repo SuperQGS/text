@@ -107,7 +107,7 @@
                         var quotet = "you grabbed the " + level.grabs[loop] + ". Added to inventory."
                         console.log("hi")
                         items[items.length] = level.grabs[loop]
-                        level.grabs.splice(loop,loop+1)
+                        level.grabs.splice(loop,loop)
                         return quotet;
                     }
                     loop++
