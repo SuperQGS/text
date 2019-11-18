@@ -30,6 +30,8 @@
         <div>><input type="text" id="player_input"></div>
         <script>
             var input = document.getElementById("player_input");
+            input.focus();
+            
             var color = "white";
             
             
@@ -37,6 +39,7 @@
             function upbinds(u){enter(event)};
             
             function enter(event) {
+                input.focus();
                 
                 if (event.keyCode === 13) {
                     var command = document.getElementById("player_input").value
