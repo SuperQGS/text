@@ -74,6 +74,9 @@
                 if (cmd.includes("grab") || cmd == "g") {
                     return grabfunc(lower);
                 }
+                if (cmd.includes("drop") || cmd == "d") {
+                    return dropfunc(lower);
+                }
                 if (cmd.includes("use") || cmd == "u") {
                     return usefunc(lower);
                 }
@@ -130,6 +133,33 @@
                 return "grab what? (" + grabstring + ")";
             }
             
+            function dropfunc(gquote) {
+                var loop = 0;
+                while (loop < items.length) {
+                    if (gquote.includes(items[loop])) {
+                        color = "lime";
+                        var quotet = "you dropped the " + items[loop] + ". Removed from inventory.";
+                        level.grabs[level.grabs.length] = items[loop]
+                        items.splice(loop,1);
+                        return quotet;
+                    }
+                    loop++
+                }
+                color = "yellow";
+                
+                var grabstring = "";
+                for (i = 0; i < level.grabs.length - 1; i++) {
+                    grabstring = grabstring + level.grabs[i] + ", "
+                }
+                grabstring = grabstring + level.grabs[level.grabs.length - 1];
+                
+                if (grabstring == "undefined") {
+                    grabstring = "you have nothing to drop";
+                }
+                
+                return "grab what? (" + grabstring + ")";
+            }
+            
             function usefunc(mquote) {
                 var mloop = 0;
                 while (mloop < level.uses.length) {
@@ -162,9 +192,17 @@
                 while (mloop < level.moves.length) {
                     if (mquote.includes(level.moves[mloop])) {
                         color = "lime";
+                        
+                        var newlevel = level.moves[mloop]
                         var quotet = "you moved to the " + level.moves[mloop] + ".";
-                        var lvlload = "level =" + level.moves[mloop];
-                        eval(lvlload);
+                        
+                        for (i = 0; i < world.length; i++) {
+                            if (world[i].name == newlevel) {
+                                level = world[i];
+                            }
+                        }
+                        
+                        
                         return quotet;
                     }
                     mloop++
@@ -227,17 +265,29 @@
                 {
                     name: "inside shack",
                     see: "You are inside the shack. It is cold and dark without the fireplace. There is a bed and a table with many items.",
-                    grabs: [" knife", " leather boots", " magic staff"],
-                    uses: [" door"],
+                    grabs: ["knife", "leather boots", "magic staff"],
+                    uses: ["door"],
                     useitems: [],
                     usetrans: [],
-                    usesee: [" The door smashes open with a loud noise."],
-                    moves: [" shack"],
+                    usesee: ["The door smashes open with a loud noise."],
+                    moves: ["outside shack"],
                     talks: [],
                     dialogue: []
                 }
             ];
+            
+            
+            var objetcs = [
+                {
+                    name:"Bronze Sword",
+                    description:"",
+                    grabbable: true,
+                    
+                }
                 
+            ]
+            
+            
             var level;
             level = world[0];
         </script>
