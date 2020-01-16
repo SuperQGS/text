@@ -273,11 +273,71 @@
                     moves: ["outside shack"],
                     talks: [],
                     dialogue: []
+                },
+                {
+                    name: "path",
+                    see: "You are on the path as it winds down the cliff. You can see that it continues into the forest.",
+                    grabs: ["handful of gravel"],
+                    uses: [],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [],
+                    moves: ["cliff", "forest path", "forest"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "forest path",
+                    see: "Surrounded by trees and foilage, the forest path winds ahead of you. you think you see a clearing up ahead.",
+                    grabs: ["leaves"],
+                    uses: [],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [],
+                    moves: ["path", "clearing", "forest"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "forest",
+                    see: "You are in the forest, the trees give you shelter from the sun. You can still see the past through the leaves and foilage. You think you can see something deeper in the forest, but you aren't sure.",
+                    grabs: ["logs, abandoned axe"],
+                    uses: [],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [],
+                    moves: ["forest path", "deep forest"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "deep forest",
+                    see: "You can't see the path anymore, and don't think you can find it again. However, ahead you see an abandoned house.",
+                    grabs: ["apple"],
+                    uses: [],
+                    useitems: [],
+                    usetrans: [],
+                    usesee: [],
+                    moves: ["abandoned house"],
+                    talks: [],
+                    dialogue: []
+                },
+                {
+                    name: "abandoned house",
+                    see: "You look up at the decaying settlement. It's pretty big, two stories, made of dark wood and suffering from serious water damage. The door is locked, but looks weak.",
+                    grabs: [],
+                    uses: ["door"],
+                    useitems: ["abandoned axe"],
+                    usetrans: ["inside the house"],
+                    usesee: ["The door crumbles at the swing of your axe."],
+                    moves: ["deep forest"],
+                    talks: [],
+                    dialogue: []
                 }
             ];
             
             
-            var objetcs = [
+            var objects = [
                 {
                     name:"Bronze Sword",
                     description:"",
