@@ -81,7 +81,7 @@
                     return usefunc(lower);
                 }
                 if (cmd.includes("move") || cmd == "m") {
-                    return movefunc(lower);
+                    return movefunc(lower) + commandstest("look");
                 }
                 if (cmd.includes("say") || cmd == "s") {
                     return sayfunc(uppertoo);
